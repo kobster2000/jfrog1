@@ -1,0 +1,37 @@
+Jfrog Artifactory Home Assignment
+
+Hi Kobi
+As discussed, please find below the home assignment:
+Instance URL - https://interviewkobil.jfrog.io/ui/login
+
+First Step to get a Working Artifactory Instance, it's on us, so you will find the Instance details at the top of this email.
+
+Note: You may refer to this Webinar ( https://jfrog.com/webinar/introduction-to-jfrog-artifactory-2/) for an introduction
+to JFrog Artifactory before completing the following task:
+
+You have a demo meeting with one of your customers, and they have shared with you the following needs:
+1. Creating one Maven & one Generic repository that will serve two new teams for the artifact deployment.
+2. Each team should have a manager who can add/remove users to the repository.
+3. Each team has 2 developers who will need the following:
+Download any Artifact or File from Maven Remote Repository (Proxy URL https://repo1.maven.org/
+maven2/) using CURL / UI
+Upload downloaded Maven Artifact / Package to Local Storage of Generic Repository using CURL / UI
+You should be able to fetch deployed artifacts from Genric.
+Need a single URL for both resolution and deployment.
+
+Using CURL will add BONUS points
+
+1. Each of the teams should not be aware of the other team’s private build output (artifacts/files). This is applicable on Generic Repository. Hint - Read this page.
+2. Both teams should use the same repository to store their artifacts (deployments of files).
+3. In the local storage repository, there should be a joint location where both teams can share artifacts between
+the two teams (like a “shared folder”).
+
+BONUS question - You are an automation engineer who needs to create a script that will answer 1-6.
+
+Please note!
+The meeting will be held as if you are representing JFrog and demoing to a customer.
+You will demonstrate the above steps + have a quick presentation explaining the JFrog Artifactory Permissions model
+and how they can use it for their needs above.
+Be ready for any other questions around the Artifactory Application.
+
+

@@ -1,0 +1,8 @@
+{
+  "key": "mars2-generic-dev-local",
+  "rclass": "local",
+  "packageType": "generic",
+  "description": "Local repository for internal dev artifacts",
+  "notes": "Created via JFrog CLI",
+  "repoLayoutRef": "simple-default"
+}

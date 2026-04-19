@@ -1,0 +1,142 @@
+# Jfrog Artifactory Home Assignment Commands
+
+# Repository Naming Best Practices: 
+# [Team/Product] – [Technology] – [Environment] – [Location]
+# Create 3 repositories: local, remote and virtual
+
+# Local Generic Repository - this is where teams will upload their files
+orion-generic-dev-local
+https://interviewkobil.jfrog.io/artifactory/api/generic/orion-generic-dev-local
+
+# Remote Maven Repository - as proxy to https://repo1.maven.org/maven2
+orion-maven-dev-remote
+URL: https://repo1.maven.org/maven2
+https://interviewkobil.jfrog.io/artifactory/api/maven/orion-maven-dev-remote
+
+# Virtual Generic Repository - aggregates the local/remote/maven/generic repositories. 
+# Use this URL in the developers' settings.
+orion-generic-dev-virtual
+https://interviewkobil.jfrog.io/artifactory/api/generic/orion-generic-dev-virtual
+
+# Move the two Repositories (local and remote) from the right (Available Repositories) to the left (Selected Repositories).
+# Default Deployment Repository
+orion-generic-dev-local
+
+# Download a file
+curl -u kobster2000@gmail.com:Password@123 -O \
+"https://interviewkobil.jfrog.io/artifactory/orion-generic-dev-virtual/junit/junit/4.13.2/junit-4.13.2.jar"
+
+# Delete the file from the local folder in the machine to make sure that the file is only available in 
+# Artifactory and not locally
+
+# Upload the file
+curl -u kobster2000@gmail.com:Password@123 -X \
+PUT "https://interviewkobil.jfrog.io/artifactory/orion-generic-dev-virtual/junit/junit/4.13.2/junit-4.13.2.jar" -T \
+junit-4.13.2.jar
+
+# Create users and groups
+
+User Name: manager-a / manager-b 
+Password: Password@123
+Email: manager-a@jfrog.com / manager-b@jfrog.com
+Roles: Manage Resource
+Group: group-a / 
+
+User Name: dev1-a / dev2-a 
+Password: Password@123
+Email: dev1-a@jfrog.com / dev2-a@jfrog.com
+Roles: None
+Group: group-a
+
+User Name: dev1-b / dev2-b 
+Password: Password@123
+Email: dev1-b@jfrog.com / dev2-b@jfrog.com
+Roles: None
+Group: group-b
+
+# Create permissions
+
+Permission Name: maven-read
+Repositories: orion-maven-dev-remote
+Groups: groups-a-and-b-all
+Actions: Read (download artifacts and read  metadata)
+
+Permission Name: generic-team-a
+Repositories: orion-generic-dev-local
+Groups: group-a
+Actions: Read, Annotate (read and write metadata), Deploy (upload artifacts)    
+
+# In the permissions of each group set the patterns to include/exclude the relevant path 
+
+# Configuring Shared Permissions 
+Permission: Shared-Collaboration
+Repositories: orion-generic-dev-local
+Pattern: include shared/**
+
+# Download a file  as dev1-a
+curl -u dev1-a@jfrog.com:Password@123 -O "https://interviewkobil.jfrog.io/artifactory/orion-generic-dev-virtual/junit/junit/4.13.2/junit-4.13.2.jar"
+curl -u dev1-a@jfrog.com:Password@123 -O "https://interviewkobil.jfrog.io/artifactory/orion-generic-dev-local/test2.txt"
+
+# Delete the file from the local folder in the machine to make sure that the file is only available in Artifactory and not locally
+
+# Upload the file into the shared folder as dev2-a via the UI or via curl
+curl -u dev2-a@jfrog.com:Password@123 -X \
+PUT "https://interviewkobil.jfrog.io/artifactory/orion-generic-dev-virtual/test-a/junit/junit/4.13.2/junit-4.13.2.jar" -T junit-4.13.2.jar
+
+# JFrog CLI (jf)
+# Prerequisites
+# install JFrog CLI (jf)
+curl -fL https://getcli.jfrog.io | sh
+# Move it to your path so you can use 'jf' everywhere
+chmod +x jfrog
+sudo mv jfrog /usr/local/bin/jf
+
+# Verify Installation
+jf --version
+
+# Configure JFrog CLI with your Artifactory instance credentials
+jf c add interview-instance \
+    --url=https://interviewkobil.jfrog.io \
+    --user=kobster2000@gmail.com \
+    --password=Password@123 \
+    --interactive=false
+
+# Connection Validation
+jf rt ping
+# Expected result: OK
+# CLI constructs the following path: https://interviewkobil.jfrog.io/artifactory/api/system/ping
+
+# Infrastructure Validation
+# Display the configured server connections (profiles) stored in your CLI
+jf config show
+jf config show interview-instance
+
+# List repos
+curl -u kobster2000@gmail.com:Password@123 -X GET "https://interviewkobil.jfrog.io/artifactory/api/repositories"
+# or via jf CLI
+jf rt curl api/repositories
+
+# Create Group via JF CLI
+jf rt group-create mars1
+
+# Create Local Generic Repository via JF CLI
+jf rt repo-create mars1-generic-dev-local.json
+mars1-generic-dev-local.json
+
+# Delete file
+jf rt del orion-generic-dev-local/test.txt
+
+# BONUS - automation engineer needs to script it
+
+# Run
+auto2-artifactory-setup-rollout.sh
+auto2-artifactory-setup-rollback.sh
+# or via bash
+/opt/homebrew/bin/bash ./auto2-artifactory-setup-rollout.sh
+/opt/homebrew/bin/bash ./auto2-artifactory-setup-rollback.sh
+
+
+
+
+
+
