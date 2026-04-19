@@ -1,0 +1,19 @@
+name: Dummy Trigger Workflow
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main" ] # Triggers on push to main
+  workflow_dispatch:      # Allows you to run this manually from the Actions tab
+
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy Step
+        run: echo "The workflow was triggered successfully!"
+
+      - name: Check Environment
+        run: |
+          echo "Current runner: ${{ runner.os }}"
+          echo "Triggered by: ${{ github.event_name }}"
